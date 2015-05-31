@@ -1,0 +1,58 @@
+#!/usr/bin/env php
+<?php
+declare(ticks = 1);
+error_reporting(~E_NOTICE);
+
+include dirname(dirname(__FILE__)) . '/conf/conf.php';
+include dirname(dirname(__FILE__)) . '/src/main.php';
+
+$options = get_options();
+
+if (empty($options))
+{
+    usage();
+    exit;
+}
+
+if (isset($options['h']))
+{
+    usage();
+    exit;
+}
+
+if (isset($options['s']))
+{
+    $conf_file = get_local_conf_file();
+    show_cron_tasks($conf_file);
+    exit;
+}
+
+if (isset($options['k']))
+{
+    stop_cron();
+    exit;
+}
+
+
+// clean php cron logs
+clean_logs();
+
+if (!function_exists('socket_create_listen'))
+{
+    color_echo("Critical Error: function 'socket_create_listen' not exists, please recompile php with option '--enable-sockets'\n", 'red');
+    exit(1);
+}
+
+if (isset($options['d']))
+{
+    start_cron(true);
+    exit;
+}
+
+if (isset($options['v']))
+{
+    start_cron(false);
+    exit;
+}
+
+# vim: ft=php
