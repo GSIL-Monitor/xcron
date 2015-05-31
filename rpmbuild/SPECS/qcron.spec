@@ -3,7 +3,7 @@ Name: qcron
 Version: 0.1.0
 Release: 2
 License: GPL
-Group: QIHOO/YUNPAN
+Group: xtc-soft
 Source: qcron-0.1.0.tar.gz
 
 %description
